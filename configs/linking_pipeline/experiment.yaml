@@ -14,6 +14,8 @@ linking_pipeline:
   data_dir: "data/processed/${domain}"
   output_dir: "outputs/linking_pipeline/${domain}"
 
+  seed: 42
+
   max_examples: 0
   top_k: 1
   include_scores: true
@@ -23,11 +25,15 @@ linking_pipeline:
     mode: "context_anchor"  # context_anchor | anchor_only | full_text
     context_window: 200
 
+  evaluation:
+    max_error_samples: 200
+
   # Span identification model
   span_model:
     # Default path matches existing span_id training output layout
-    model_dir: "data/processed/${domain}/models/${domain}"
+    model_dir: "data/processed/${domain}/models/${domain}/checkpoint-10520"
     model_name: "bert-base-uncased"
+    normalize_punctuation: false
     max_seq_length: 512
     stride: 128
 

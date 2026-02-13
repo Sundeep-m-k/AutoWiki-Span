@@ -117,6 +117,14 @@ def build_paragraph_faiss_indices(cfg: Dict[str, Any]) -> List[Path]:
             with (index_dir / "paragraph_ids.json").open("w", encoding="utf-8") as f:
                 json.dump(json.loads(ids_path.read_text(encoding="utf-8")), f, indent=2)
 
+            manifest = {
+                "model_name": model_name,
+                "text_variant": variant,
+                "metric": metric,
+            }
+            with (index_dir / "manifest.json").open("w", encoding="utf-8") as f:
+                json.dump(manifest, f, indent=2)
+
             logger.info(f"Saved FAISS index for {model_name}/{variant} to {index_dir}")
             output_paths.append(index_dir)
 

@@ -208,6 +208,16 @@ def build_faiss_index_from_config(config: Dict[str, Any]) -> List[Path]:
         logger.info(f"Saved embeddings: {variant_dir / emb_name}")
         logger.info(f"Saved article id map: {variant_dir / map_name}")
 
+        manifest = {
+            "text_variant": variant,
+            "encoder_name": encoder_name,
+            "retriever_ckpt": ckpt_path,
+            "normalize": normalize,
+            "metric": metric,
+        }
+        with (variant_dir / "manifest.json").open("w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2)
+
         output_paths.append(variant_dir / index_name)
 
     return output_paths

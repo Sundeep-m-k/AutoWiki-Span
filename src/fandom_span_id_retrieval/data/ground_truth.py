@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 
 from fandom_span_id_retrieval.pipeline.experiment import PROJECT_ROOT
 from fandom_span_id_retrieval.utils.stats_utils import load_stats, save_stats
+from fandom_span_id_retrieval.utils.dataset_versioning import build_dataset_manifest
 
 
 SKIP_NAMESPACES = (
@@ -721,5 +722,8 @@ def build_ground_truth_for_domain(domain: str, logger) -> Path:
         "link_type_counts": link_type_counts,
     }
     save_stats(domain, stats)
+
+    manifest_path = build_dataset_manifest(domain, processed_dir)
+    logger.info(f"Dataset manifest: {manifest_path}")
 
     return paragraphs_master

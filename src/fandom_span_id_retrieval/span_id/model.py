@@ -22,6 +22,19 @@ from fandom_span_id_retrieval.eval.span_metrics import compute_span_metrics_for_
 from fandom_span_id_retrieval.utils.logging_utils import create_logger
 from fandom_span_id_retrieval.pipeline.experiment import PROJECT_ROOT
 from fandom_span_id_retrieval.span_id.preprocess import BILOU_LABELS, LABEL2ID, ID2LABEL
+from fandom_span_id_retrieval.utils.model_registry import write_model_manifest
+
+
+def _model_dir_for_cfg(span_cfg: Dict[str, Any]) -> Path:
+    domain = span_cfg.get("domain", "unknown")
+    raw_model_name = span_cfg.get("model_name", "bert-base-uncased")
+    model_name = raw_model_name.split("/")[-1]
+    level = span_cfg.get("level", "paragraph")
+    normalize_punct = span_cfg.get("normalize_punctuation", False)
+    punc_str = "punc" if not normalize_punct else "nopunc"
+
+    base_dir = PROJECT_ROOT / span_cfg["token_dataset_dir"]
+    return base_dir.parent / "models" / f"{domain}_{model_name}_{level}_{punc_str}"
 
 
 def log_results_to_csv(span_cfg: Dict[str, Any], metrics: Dict[str, Any]) -> str:
@@ -218,8 +231,7 @@ def train_model_from_cfg(span_cfg: Dict[str, Any]) -> Path:
         label2id=LABEL2ID,
     )
 
-    base_dir = PROJECT_ROOT / span_cfg["token_dataset_dir"]
-    out_dir = base_dir.parent / "models" / span_cfg["domain"]
+    out_dir = _model_dir_for_cfg(span_cfg)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     tensorboard_dir = PROJECT_ROOT / span_cfg.get(
@@ -261,6 +273,18 @@ def train_model_from_cfg(span_cfg: Dict[str, Any]) -> Path:
     trainer.train()
     trainer.save_model(str(out_dir))
     tokenizer.save_pretrained(str(out_dir))
+    write_model_manifest(
+        out_dir,
+        {
+            "task": "span_id",
+            "domain": span_cfg.get("domain"),
+            "model_name": model_name,
+            "level": span_cfg.get("level"),
+            "normalize_punctuation": span_cfg.get("normalize_punctuation", False),
+            "train": span_cfg.get("train", {}),
+            "max_seq_length": span_cfg.get("max_seq_length", 512),
+        },
+    )
     logger.info(f"Training complete. Model saved to: {out_dir}")
 
     return out_dir
@@ -274,8 +298,7 @@ def evaluate_model_from_cfg(span_cfg: Dict[str, Any]) -> Dict[str, Any]:
     model_name = span_cfg["model_name"]
     num_labels = int(span_cfg.get("num_labels", len(BILOU_LABELS)))
 
-    base_dir = PROJECT_ROOT / span_cfg["token_dataset_dir"]
-    model_dir = base_dir.parent / "models" / span_cfg["domain"]
+    model_dir = _model_dir_for_cfg(span_cfg)
 
     tokenizer_source = str(model_dir) if model_dir.exists() else model_name
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_source, use_fast=True)

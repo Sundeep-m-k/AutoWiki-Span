@@ -15,6 +15,7 @@ from fandom_span_id_retrieval.span_id.model import (
     train_model_from_cfg,
     evaluate_model_from_cfg,
 )
+from fandom_span_id_retrieval.utils.seed_utils import set_seed
 
 # Hard-disable wandb
 os.environ["WANDB_DISABLED"] = "true"
@@ -40,6 +41,9 @@ def run_one(span_cfg_base: dict, level: str, normalize_punct: bool):
     span_cfg = copy.deepcopy(span_cfg_base)
     span_cfg["level"] = level
     span_cfg["normalize_punctuation"] = normalize_punct
+
+    seed = int(span_cfg.get("train", {}).get("seed", 0))
+    set_seed(seed, deterministic=True)
 
     domain = span_cfg["domain"]
     raw_model_name = span_cfg["model_name"]
@@ -91,6 +95,9 @@ def main():
 
     cfg = load_yaml_config(args.config)
     span_cfg_base = cfg[args.section]
+
+    seed = int(span_cfg_base.get("train", {}).get("seed", 0))
+    set_seed(seed, deterministic=True)
 
     for level, np_flag in GRID_SETTINGS:
         run_one(span_cfg_base, level, np_flag)

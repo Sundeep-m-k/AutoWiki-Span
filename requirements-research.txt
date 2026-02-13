@@ -1,0 +1,11 @@
+beautifulsoup4
+requests
+pyyaml
+tqdm
+numpy
+torch
+transformers
+datasets
+seqeval
+faiss-cpu
+pytest

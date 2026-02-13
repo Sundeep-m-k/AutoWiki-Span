@@ -13,6 +13,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer, get_
 
 from fandom_span_id_retrieval.rerank.dataset import RerankDataset
 from fandom_span_id_retrieval.utils.logging_utils import create_logger
+from fandom_span_id_retrieval.utils.model_registry import write_model_manifest
 
 
 def _compute_binary_metrics(eval_pred) -> Dict[str, float]:
@@ -133,6 +134,17 @@ def train_rerank_from_config(config: Dict[str, Any]) -> Path:
     with open(Path(out_cfg["dir"]) / "train_history.json", "w", encoding="utf-8") as f:
         json.dump(history, f, indent=2)
     logger.info("Training history saved.")
+
+    write_model_manifest(
+        Path(out_cfg["dir"]),
+        {
+            "task": "rerank",
+            "encoder_name": model_cfg.get("encoder_name"),
+            "train": train_cfg,
+            "dataset": data_cfg,
+            "best_val_accuracy": best_acc,
+        },
+    )
 
     return Path(out_cfg["dir"]) / "best_model.pt"
 

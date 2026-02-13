@@ -10,6 +10,7 @@ from tqdm import tqdm
 
 from fandom_span_id_retrieval.retrieval.dataset import RetrievalDataset
 from fandom_span_id_retrieval.retrieval.model import ArticleRetriever
+from fandom_span_id_retrieval.utils.model_registry import write_model_manifest
 
 
 def _load_num_articles(articles_path: Path) -> int:
@@ -220,5 +221,17 @@ def train_retrieval_from_config(config: Dict[str, Any]) -> Dict[str, Any]:
     # save training history
     with open(os.path.join(out_cfg["dir"], "train_history.json"), "w") as f:
         json.dump(history, f, indent=2)
+
+    write_model_manifest(
+        Path(out_cfg["dir"]),
+        {
+            "task": "retrieval",
+            "encoder_name": model_cfg.get("encoder_name"),
+            "num_articles": num_articles,
+            "train": train_cfg,
+            "dataset": data_cfg,
+            "best_val_recall@1": best_val_recall,
+        },
+    )
 
     return {"best_val_recall@1": best_val_recall, "history": history}

@@ -1,6 +1,6 @@
 experiment:
   task: "paragraph-retrieval"
-  domain: "starwars"
+  domain: "money-heist"
   seed: 42
 
 paragraphs:

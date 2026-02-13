@@ -13,6 +13,7 @@ from fandom_span_id_retrieval.linking_pipeline.link_predict import (
     ParagraphFaissRetriever,
 )
 from fandom_span_id_retrieval.linking_pipeline.span_predict import load_span_model, predict_spans
+from fandom_span_id_retrieval.span_id.preprocess import normalize_punctuation
 from fandom_span_id_retrieval.retrieval.paragraph_embeddings import _expand_placeholders
 from fandom_span_id_retrieval.utils.logging_utils import create_logger
 
@@ -164,6 +165,7 @@ def run_linking_pipeline(config_path: Path) -> List[Path]:
     model_name = span_cfg.get("model_name", "bert-base-uncased")
     max_seq_length = int(span_cfg.get("max_seq_length", 512))
     stride = int(span_cfg.get("stride", 128))
+    normalize_punct = bool(span_cfg.get("normalize_punctuation", False))
 
     model, tokenizer = load_span_model(model_dir, model_name)
 
@@ -209,7 +211,8 @@ def run_linking_pipeline(config_path: Path) -> List[Path]:
                     summary_writer.writeheader()
                     summary_file_exists = True
                 for rec in _read_jsonl(input_path):
-                    text, rec_id = _get_text_and_id(level, rec)
+                    raw_text, rec_id = _get_text_and_id(level, rec)
+                    text = normalize_punctuation(raw_text) if normalize_punct else raw_text
                     if not text.strip():
                         continue
 

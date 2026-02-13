@@ -33,6 +33,18 @@ def _load_paragraph_map(csv_path: Path, id_field: str) -> Dict[str, str]:
     return mapping
 
 
+def _validate_manifest(manifest_path: Path, expected: Dict[str, str]) -> None:
+    if not manifest_path.exists():
+        return
+    data = json.loads(manifest_path.read_text(encoding="utf-8"))
+    for key, expected_val in expected.items():
+        actual = data.get(key)
+        if expected_val and actual and str(actual) != str(expected_val):
+            raise ValueError(
+                f"FAISS manifest mismatch for {manifest_path}: {key}={actual} expected={expected_val}"
+            )
+
+
 class ArticleClassifierRetriever:
     def __init__(self, ckpt_path: str, max_length: int = 256):
         self.model, encoder_name = load_retrieval_model_for_eval(ckpt_path)
@@ -77,6 +89,14 @@ class ArticleFaissRetriever:
         ids_path = variant_dir / "article_ids.json"
         if not index_path.is_file() or not ids_path.is_file():
             raise FileNotFoundError(f"Missing FAISS index or ids in {variant_dir}")
+
+        _validate_manifest(
+            variant_dir / "manifest.json",
+            {
+                "text_variant": variant,
+                "encoder_name": encoder_name or "",
+            },
+        )
 
         self.index = faiss.read_index(str(index_path))
         self.article_ids = json.loads(ids_path.read_text(encoding="utf-8"))
@@ -148,6 +168,14 @@ class ParagraphFaissRetriever:
         ids_path = model_dir / "paragraph_ids.json"
         if not index_path.is_file() or not ids_path.is_file():
             raise FileNotFoundError(f"Missing paragraph FAISS index in {model_dir}")
+
+        _validate_manifest(
+            model_dir / "manifest.json",
+            {
+                "model_name": model_name,
+                "text_variant": variant,
+            },
+        )
 
         self.index = faiss.read_index(str(index_path))
         self.paragraph_ids = json.loads(ids_path.read_text(encoding="utf-8"))

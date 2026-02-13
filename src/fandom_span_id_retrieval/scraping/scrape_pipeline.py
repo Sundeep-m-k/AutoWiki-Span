@@ -129,6 +129,7 @@ def scrape_allpages(base_url: str, start_url: str, session: requests.Session, de
     url = start_url
     results: List[str] = []
     seen = set()
+    first_page = True
 
     while url:
         logger.info(f"[AllPages] Fetching {url}")
@@ -152,6 +153,10 @@ def scrape_allpages(base_url: str, start_url: str, session: requests.Session, de
                 seen.add(full)
                 results.append(full)
 
+        if first_page and not results:
+            logger.warning("[AllPages] No links found on first page, switching to API fallback.")
+            return scrape_allpages_api(base_url, session)
+
         next_url = None
 
         head_next = soup.find("link", rel=lambda v: v and "next" in v.lower() if v else False)
@@ -171,6 +176,7 @@ def scrape_allpages(base_url: str, start_url: str, session: requests.Session, de
 
         url = urljoin(base_url, next_url) if next_url else None
         time.sleep(delay)
+        first_page = False
 
     logger.info(f"[AllPages] Collected {len(results)} raw URLs")
     return results

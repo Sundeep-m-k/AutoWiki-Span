@@ -22,6 +22,8 @@ from fandom_span_id_retrieval.retrieval.prep import prepare_retrieval_data
 from fandom_span_id_retrieval.retrieval.trainer import train_retrieval_from_config
 from fandom_span_id_retrieval.utils.aggregate_results import aggregate_results_main
 from fandom_span_id_retrieval.pipeline.experiment import PROJECT_ROOT
+from fandom_span_id_retrieval.utils.seed_utils import set_seed
+from fandom_span_id_retrieval.utils.experiment_registry import write_task_metadata
 
 
 def _load_config(path: str) -> Dict[str, Any]:
@@ -225,6 +227,9 @@ def main() -> None:
     paragraph_cfg = _apply_domain_override(paragraph_cfg, domain_override)
     article_rerank_cfg = _apply_domain_override(article_rerank_cfg, domain_override)
 
+    seed = int(article_cfg.get("experiment", {}).get("seed", 0))
+    set_seed(seed, deterministic=True)
+
     if do_article:
         _run_article_pipeline(article_cfg)
         if do_article_rerank:
@@ -235,6 +240,25 @@ def main() -> None:
 
     if do_aggregate:
         aggregate_results_main()
+
+    retrieval_out = PROJECT_ROOT / "outputs" / "retrieval" / domain_override
+    rerank_out = PROJECT_ROOT / "outputs" / "rerank" / domain_override
+    write_task_metadata(
+        retrieval_out,
+        {
+            "task": "retrieval",
+            "domain": domain_override,
+            "configs": [pipeline_cfg.get("article_config"), pipeline_cfg.get("paragraph_config")],
+        },
+    )
+    write_task_metadata(
+        rerank_out,
+        {
+            "task": "rerank",
+            "domain": domain_override,
+            "configs": [pipeline_cfg.get("article_rerank_config")],
+        },
+    )
 
 
 if __name__ == "__main__":

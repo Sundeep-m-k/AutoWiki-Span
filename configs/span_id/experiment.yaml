@@ -1,5 +1,5 @@
 span_id:
-  domain: "starwars"
+  domain: "money-heist"
 
   model_name: "bert-base-uncased"
 

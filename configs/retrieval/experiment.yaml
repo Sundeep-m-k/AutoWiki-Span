@@ -2,7 +2,7 @@ experiment:
   task: "retrieval"
   model: "sentence-transformers/all-MiniLM-L6-v2"
   variant: "minilm-l6"
-  domain: "starwars"
+  domain: "money-heist"
   seed: 42
 
 retrieval:

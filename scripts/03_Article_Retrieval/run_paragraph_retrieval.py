@@ -15,6 +15,8 @@ from fandom_span_id_retrieval.retrieval.paragraph_rerank_prep import prepare_par
 from fandom_span_id_retrieval.rerank.trainer import train_rerank_from_config
 from fandom_span_id_retrieval.rerank.eval import eval_rerank_from_config
 from fandom_span_id_retrieval.utils.aggregate_results import aggregate_results_main
+from fandom_span_id_retrieval.utils.seed_utils import set_seed
+from fandom_span_id_retrieval.utils.experiment_registry import write_task_metadata
 
 
 Step = Tuple[str, str, Callable[[dict], None]]
@@ -135,9 +137,23 @@ def main() -> None:
 
     cfg = expand_config(cfg)
 
+    seed = int(cfg.get("experiment", {}).get("seed", 0))
+    set_seed(seed, deterministic=True)
+
     for step_id, step_name, step_fn in _select_steps(args.start, args.end):
         print(f"\n=== Step {step_id}: {step_name} ===")
         step_fn(cfg)
+
+    domain = str(cfg.get("experiment", {}).get("domain", ""))
+    out_dir = Path("outputs") / "retrieval" / domain
+    write_task_metadata(
+        out_dir,
+        {
+            "task": "paragraph_retrieval",
+            "domain": domain,
+            "config": args.config,
+        },
+    )
 
 
 if __name__ == "__main__":
