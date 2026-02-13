@@ -1,0 +1,53 @@
+linking_pipeline:
+  domain: "money-heist"
+
+  # Toggle multi-run behavior
+  run_all_levels: false
+  levels: ["paragraph", "page"]
+  level: "paragraph"  # used when run_all_levels=false
+
+  run_all_variants: false
+  retrieval_variants:
+    - "paragraph_text+title"
+  retrieval_variant: "paragraph_text+title"  # used when run_all_variants=false
+
+  data_dir: "data/processed/${domain}"
+  output_dir: "outputs/linking_pipeline/${domain}"
+
+  max_examples: 0
+  top_k: 1
+  include_scores: true
+
+  # Query construction
+  query:
+    mode: "context_anchor"  # context_anchor | anchor_only | full_text
+    context_window: 200
+
+  # Span identification model
+  span_model:
+    # Default path matches existing span_id training output layout
+    model_dir: "data/processed/${domain}/models/${domain}"
+    model_name: "bert-base-uncased"
+    max_seq_length: 512
+    stride: 128
+
+  # Retrieval backends
+  retrieval:
+    article_classifier:
+      ckpt_path: "outputs/retrieval/${domain}/minilm-l6/best_model.pt"
+      max_length: 256
+
+    article_faiss:
+      index_dir: "outputs/retrieval/${domain}/faiss"
+      retriever_ckpt: "outputs/retrieval/${domain}/minilm-l6/best_model.pt"
+      encoder_name: "sentence-transformers/all-MiniLM-L6-v2"
+      max_length: 256
+      normalize: true
+
+    paragraph_faiss:
+      index_root: "outputs/retrieval/${domain}/paragraph_faiss_minilm-l6"
+      model_name: "sentence-transformers/all-MiniLM-L6-v2"
+      paragraphs_csv: "data/processed/${domain}/paragraphs_${domain}.csv"
+      paragraph_id_field: "paragraph_id"
+      max_length: 256
+      normalize: true
