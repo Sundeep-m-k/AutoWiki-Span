@@ -1,0 +1,71 @@
+2026-02-11 23:51:40 — INFO — Logger initialized for 01_build_ground_truth
+2026-02-11 23:51:40 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/matrix/20260211_235140_01_build_ground_truth.log
+2026-02-11 23:51:40 — INFO — === Starting 01_build_ground_truth for domain=matrix ===
+2026-02-11 23:51:40 — INFO — Building ground truth for domain=matrix
+2026-02-11 23:51:40 — INFO — HTML dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/raw/fandom_html/matrix
+2026-02-11 23:51:40 — INFO — Paragraph master: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/paragraphs_matrix.jsonl
+2026-02-11 23:51:40 — INFO — Sentence master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/sentences_matrix.jsonl
+2026-02-11 23:51:40 — INFO — Articles master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/articles_matrix.jsonl
+2026-02-11 23:51:40 — INFO — Per-article paragraphs dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/paragraphs_matrix_by_article
+2026-02-11 23:51:40 — INFO — Per-article sentences dir:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/sentences_matrix_by_article
+2026-02-11 23:51:40 — INFO — Building page_map from 1607 HTML files
+2026-02-11 23:51:53 — INFO — [page_map] Processed 200/1607 files
+2026-02-11 23:52:08 — INFO — [page_map] Processed 400/1607 files
+2026-02-11 23:52:22 — INFO — [page_map] Processed 600/1607 files
+2026-02-11 23:52:36 — INFO — [page_map] Processed 800/1607 files
+2026-02-11 23:52:50 — INFO — [page_map] Processed 1000/1607 files
+2026-02-11 23:53:05 — INFO — [page_map] Processed 1200/1607 files
+2026-02-11 23:53:18 — INFO — [page_map] Processed 1400/1607 files
+2026-02-11 23:53:32 — INFO — [page_map] Processed 1600/1607 files
+2026-02-11 23:53:33 — INFO — [page_map] Built mapping for 1605 pages
+2026-02-11 23:53:36 — INFO — [Progress] Processed 50/1607 HTML files; articles=50, paragraphs=151, sentences=155, links=118
+2026-02-11 23:53:40 — INFO — [Progress] Processed 100/1607 HTML files; articles=100, paragraphs=371, sentences=516, links=1044
+2026-02-11 23:53:45 — INFO — [Progress] Processed 150/1607 HTML files; articles=150, paragraphs=728, sentences=1266, links=2930
+2026-02-11 23:53:49 — INFO — [Progress] Processed 200/1607 HTML files; articles=200, paragraphs=1006, sentences=1810, links=4182
+2026-02-11 23:53:54 — INFO — [Progress] Processed 250/1607 HTML files; articles=250, paragraphs=2493, sentences=5738, links=11701
+2026-02-11 23:53:58 — INFO — [Progress] Processed 300/1607 HTML files; articles=300, paragraphs=3071, sentences=7174, links=15436
+2026-02-11 23:54:02 — INFO — [Progress] Processed 350/1607 HTML files; articles=350, paragraphs=3655, sentences=8648, links=19228
+2026-02-11 23:54:07 — INFO — [Progress] Processed 400/1607 HTML files; articles=400, paragraphs=4040, sentences=9520, links=21772
+2026-02-11 23:54:11 — INFO — [Progress] Processed 450/1607 HTML files; articles=450, paragraphs=4398, sentences=10283, links=23985
+2026-02-11 23:54:15 — INFO — [Progress] Processed 500/1607 HTML files; articles=500, paragraphs=4723, sentences=10985, links=25717
+2026-02-11 23:54:19 — INFO — [Progress] Processed 550/1607 HTML files; articles=550, paragraphs=4984, sentences=11519, links=26857
+2026-02-11 23:54:23 — INFO — [Progress] Processed 600/1607 HTML files; articles=600, paragraphs=5298, sentences=12242, links=28209
+2026-02-11 23:54:27 — INFO — [Progress] Processed 650/1607 HTML files; articles=650, paragraphs=5548, sentences=12736, links=30645
+2026-02-11 23:54:31 — INFO — [Progress] Processed 700/1607 HTML files; articles=700, paragraphs=5800, sentences=13219, links=32133
+2026-02-11 23:54:35 — INFO — [Progress] Processed 750/1607 HTML files; articles=750, paragraphs=6112, sentences=13924, links=33538
+2026-02-11 23:54:40 — INFO — [Progress] Processed 800/1607 HTML files; articles=800, paragraphs=6331, sentences=14350, links=34868
+2026-02-11 23:54:44 — INFO — [Progress] Processed 850/1607 HTML files; articles=850, paragraphs=6547, sentences=14760, links=35698
+2026-02-11 23:54:48 — INFO — [Progress] Processed 900/1607 HTML files; articles=900, paragraphs=6789, sentences=15267, links=36638
+2026-02-11 23:54:52 — INFO — [Progress] Processed 950/1607 HTML files; articles=950, paragraphs=7009, sentences=15717, links=37490
+2026-02-11 23:54:56 — INFO — [Progress] Processed 1000/1607 HTML files; articles=1000, paragraphs=7199, sentences=16074, links=38136
+2026-02-11 23:55:00 — INFO — [Progress] Processed 1050/1607 HTML files; articles=1050, paragraphs=7450, sentences=16598, links=39369
+2026-02-11 23:55:04 — INFO — [Progress] Processed 1100/1607 HTML files; articles=1100, paragraphs=7646, sentences=16952, links=40107
+2026-02-11 23:55:09 — INFO — [Progress] Processed 1150/1607 HTML files; articles=1150, paragraphs=8253, sentences=18147, links=42405
+2026-02-11 23:55:13 — INFO — [Progress] Processed 1200/1607 HTML files; articles=1200, paragraphs=8613, sentences=19060, links=43319
+2026-02-11 23:55:17 — INFO — [Progress] Processed 1250/1607 HTML files; articles=1250, paragraphs=8835, sentences=19520, links=44187
+2026-02-11 23:55:21 — INFO — [Progress] Processed 1300/1607 HTML files; articles=1300, paragraphs=9054, sentences=19980, links=44901
+2026-02-11 23:55:25 — INFO — [Progress] Processed 1350/1607 HTML files; articles=1350, paragraphs=9314, sentences=20455, links=46104
+2026-02-11 23:55:29 — INFO — [Progress] Processed 1400/1607 HTML files; articles=1400, paragraphs=9647, sentences=21197, links=47760
+2026-02-11 23:55:33 — INFO — [Progress] Processed 1450/1607 HTML files; articles=1450, paragraphs=9851, sentences=21563, links=48488
+2026-02-11 23:55:37 — INFO — [Progress] Processed 1500/1607 HTML files; articles=1500, paragraphs=10008, sentences=21739, links=48858
+2026-02-11 23:55:41 — INFO — [Progress] Processed 1550/1607 HTML files; articles=1550, paragraphs=10166, sentences=21922, links=49248
+2026-02-11 23:55:45 — INFO — [Progress] Processed 1600/1607 HTML files; articles=1600, paragraphs=10465, sentences=22609, links=50405
+2026-02-11 23:55:45 — INFO — === Ground truth summary ===
+2026-02-11 23:55:45 — INFO — Articles:    1607
+2026-02-11 23:55:45 — INFO — Paragraphs:  10486
+2026-02-11 23:55:45 — INFO — Sentences:   22630
+2026-02-11 23:55:45 — INFO — Links:       50419
+2026-02-11 23:55:45 — INFO — Link type counts: {'internal': 20591, 'external': 1462, 'category': 34, 'file': 1, 'other': 3125}
+2026-02-11 23:55:45 — INFO — Paragraph master: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/paragraphs_matrix.jsonl
+2026-02-11 23:55:45 — INFO — Sentence master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/sentences_matrix.jsonl
+2026-02-11 23:55:45 — INFO — Page master:      /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/pages_matrix.jsonl
+2026-02-11 23:55:45 — INFO — Articles master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/articles_matrix.jsonl
+2026-02-11 23:55:45 — INFO — Per-article paragraphs dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/paragraphs_matrix_by_article
+2026-02-11 23:55:45 — INFO — Per-article sentences dir:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/sentences_matrix_by_article
+2026-02-11 23:55:45 — INFO — Paragraph CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/paragraphs_matrix.csv
+2026-02-11 23:55:45 — INFO — Paragraph links CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/paragraph_links_matrix.csv
+2026-02-11 23:55:45 — INFO — Sentence CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/sentences_matrix.csv
+2026-02-11 23:55:45 — INFO — Sentence links CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/sentence_links_matrix.csv
+2026-02-11 23:55:45 — INFO — Finished 01_build_ground_truth in 245.58 seconds
+2026-02-11 23:55:45 — INFO — Paragraph master file: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/matrix/paragraphs_matrix.jsonl
+2026-02-11 23:55:45 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/matrix/20260211_235140_01_build_ground_truth.log

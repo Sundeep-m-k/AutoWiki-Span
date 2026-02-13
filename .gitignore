@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Data artifacts
+archive/
+data/raw/
+data/processed/
+outputs/
+tmp_trainer/
+
+# Keep url lists for reproducibility
+!data/raw/url_lists/
+!data/raw/url_lists/*.txt
+
+# Misc
+.DS_Store

@@ -1,0 +1,37 @@
+2026-02-11 04:15:55 — INFO — Logger initialized for 01_build_ground_truth
+2026-02-11 04:15:55 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/money-heist/20260211_041555_01_build_ground_truth.log
+2026-02-11 04:15:55 — INFO — === Starting 01_build_ground_truth for domain=money-heist ===
+2026-02-11 04:15:55 — INFO — Building ground truth for domain=money-heist
+2026-02-11 04:15:55 — INFO — HTML dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/raw/fandom_html/money-heist
+2026-02-11 04:15:55 — INFO — Paragraph master: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/paragraphs_money-heist.jsonl
+2026-02-11 04:15:55 — INFO — Sentence master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/sentences_money-heist.jsonl
+2026-02-11 04:15:55 — INFO — Articles master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/articles_money-heist.jsonl
+2026-02-11 04:15:55 — INFO — Per-article paragraphs dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/paragraphs_money-heist_by_article
+2026-02-11 04:15:55 — INFO — Per-article sentences dir:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/sentences_money-heist_by_article
+2026-02-11 04:15:55 — INFO — Building page_map from 267 HTML files
+2026-02-11 04:16:10 — INFO — [page_map] Processed 200/267 files
+2026-02-11 04:16:15 — INFO — [page_map] Built mapping for 267 pages
+2026-02-11 04:16:19 — INFO — [Progress] Processed 50/267 HTML files; articles=50, paragraphs=364, sentences=812, links=3445
+2026-02-11 04:16:23 — INFO — [Progress] Processed 100/267 HTML files; articles=100, paragraphs=713, sentences=1521, links=7065
+2026-02-11 04:16:27 — INFO — [Progress] Processed 150/267 HTML files; articles=150, paragraphs=1026, sentences=2070, links=10979
+2026-02-11 04:16:32 — INFO — [Progress] Processed 200/267 HTML files; articles=200, paragraphs=1434, sentences=2793, links=19093
+2026-02-11 04:16:36 — INFO — [Progress] Processed 250/267 HTML files; articles=250, paragraphs=2108, sentences=4485, links=31061
+2026-02-11 04:16:38 — INFO — === Ground truth summary ===
+2026-02-11 04:16:38 — INFO — Articles:    267
+2026-02-11 04:16:38 — INFO — Paragraphs:  2302
+2026-02-11 04:16:38 — INFO — Sentences:   4938
+2026-02-11 04:16:38 — INFO — Links:       33517
+2026-02-11 04:16:38 — INFO — Link type counts: {'internal': 13360, 'external': 613, 'category': 133, 'file': 1, 'other': 2652}
+2026-02-11 04:16:38 — INFO — Paragraph master: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/paragraphs_money-heist.jsonl
+2026-02-11 04:16:38 — INFO — Sentence master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/sentences_money-heist.jsonl
+2026-02-11 04:16:38 — INFO — Page master:      /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/pages_money-heist.jsonl
+2026-02-11 04:16:38 — INFO — Articles master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/articles_money-heist.jsonl
+2026-02-11 04:16:38 — INFO — Per-article paragraphs dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/paragraphs_money-heist_by_article
+2026-02-11 04:16:38 — INFO — Per-article sentences dir:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/sentences_money-heist_by_article
+2026-02-11 04:16:38 — INFO — Paragraph CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/paragraphs_money-heist.csv
+2026-02-11 04:16:38 — INFO — Paragraph links CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/paragraph_links_money-heist.csv
+2026-02-11 04:16:38 — INFO — Sentence CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/sentences_money-heist.csv
+2026-02-11 04:16:38 — INFO — Sentence links CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/sentence_links_money-heist.csv
+2026-02-11 04:16:38 — INFO — Finished 01_build_ground_truth in 42.29 seconds
+2026-02-11 04:16:38 — INFO — Paragraph master file: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/money-heist/paragraphs_money-heist.jsonl
+2026-02-11 04:16:38 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/money-heist/20260211_041555_01_build_ground_truth.log

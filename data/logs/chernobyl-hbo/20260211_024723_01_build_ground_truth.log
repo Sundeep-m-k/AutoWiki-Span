@@ -1,0 +1,31 @@
+2026-02-11 02:47:23 — INFO — Logger initialized for 01_build_ground_truth
+2026-02-11 02:47:23 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/chernobyl-hbo/20260211_024723_01_build_ground_truth.log
+2026-02-11 02:47:23 — INFO — === Starting 01_build_ground_truth for domain=chernobyl-hbo ===
+2026-02-11 02:47:23 — INFO — Building ground truth for domain=chernobyl-hbo
+2026-02-11 02:47:23 — INFO — HTML dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/raw/fandom_html/chernobyl-hbo
+2026-02-11 02:47:23 — INFO — Paragraph master: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/paragraphs_chernobyl-hbo.jsonl
+2026-02-11 02:47:23 — INFO — Sentence master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/sentences_chernobyl-hbo.jsonl
+2026-02-11 02:47:23 — INFO — Articles master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/articles_chernobyl-hbo.jsonl
+2026-02-11 02:47:23 — INFO — Per-article paragraphs dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/paragraphs_chernobyl-hbo_by_article
+2026-02-11 02:47:23 — INFO — Per-article sentences dir:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/sentences_chernobyl-hbo_by_article
+2026-02-11 02:47:23 — INFO — Building page_map from 26 HTML files
+2026-02-11 02:47:23 — INFO — [page_map] Built mapping for 26 pages
+2026-02-11 02:47:24 — INFO — === Ground truth summary ===
+2026-02-11 02:47:24 — INFO — Articles:    26
+2026-02-11 02:47:24 — INFO — Paragraphs:  123
+2026-02-11 02:47:24 — INFO — Sentences:   243
+2026-02-11 02:47:24 — INFO — Links:       334
+2026-02-11 02:47:24 — INFO — Link type counts: {'internal': 120, 'external': 6, 'category': 4, 'file': 0, 'other': 37}
+2026-02-11 02:47:24 — INFO — Paragraph master: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/paragraphs_chernobyl-hbo.jsonl
+2026-02-11 02:47:24 — INFO — Sentence master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/sentences_chernobyl-hbo.jsonl
+2026-02-11 02:47:24 — INFO — Page master:      /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/pages_chernobyl-hbo.jsonl
+2026-02-11 02:47:24 — INFO — Articles master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/articles_chernobyl-hbo.jsonl
+2026-02-11 02:47:24 — INFO — Per-article paragraphs dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/paragraphs_chernobyl-hbo_by_article
+2026-02-11 02:47:24 — INFO — Per-article sentences dir:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/sentences_chernobyl-hbo_by_article
+2026-02-11 02:47:24 — INFO — Paragraph CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/paragraphs_chernobyl-hbo.csv
+2026-02-11 02:47:24 — INFO — Paragraph links CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/paragraph_links_chernobyl-hbo.csv
+2026-02-11 02:47:24 — INFO — Sentence CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/sentences_chernobyl-hbo.csv
+2026-02-11 02:47:24 — INFO — Sentence links CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/sentence_links_chernobyl-hbo.csv
+2026-02-11 02:47:24 — INFO — Finished 01_build_ground_truth in 1.51 seconds
+2026-02-11 02:47:24 — INFO — Paragraph master file: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/chernobyl-hbo/paragraphs_chernobyl-hbo.jsonl
+2026-02-11 02:47:24 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/chernobyl-hbo/20260211_024723_01_build_ground_truth.log

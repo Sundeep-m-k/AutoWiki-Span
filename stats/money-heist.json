@@ -1,0 +1,101 @@
+{
+  "domain": "money-heist",
+  "scraping_stats": {
+    "total_urls": 358,
+    "downloaded": 267,
+    "skipped": 89,
+    "failed": 2,
+    "html_bytes": {
+      "total": 78682808,
+      "avg": 294692.1647940075,
+      "max": 468180
+    },
+    "text_bytes": {
+      "total": 700822,
+      "avg": 2624.801498127341,
+      "max": 13940
+    }
+  },
+  "dataset_stats": {
+    "num_articles": 267,
+    "num_paragraphs": 2302,
+    "num_sentences": 4938,
+    "num_pages": 267,
+    "num_links": 33517,
+    "link_type_counts": {
+      "internal": 13360,
+      "external": 613,
+      "category": 133,
+      "file": 1,
+      "other": 2652
+    }
+  },
+  "span_identification_metrics": {},
+  "retrieval_metrics": {
+    "article_retrieval": [
+      {
+        "model": "",
+        "variant": "minilm-l6",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/retrieval/money-heist/minilm-l6",
+        "timestamp": "2026-02-11 05:11:28",
+        "metrics": {
+          "recall@1": 0.17027863777089783,
+          "recall@5": 0.30030959752321984,
+          "recall@10": 0.4434984520123839
+        }
+      }
+    ],
+    "rerank": [
+      {
+        "model": "",
+        "variant": "full_text",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/rerank/money-heist/minilm-l6/full_text",
+        "timestamp": "2026-02-11 06:05:30",
+        "metrics": {
+          "recall@1": 0.5085139318885449,
+          "recall@5": 0.868421052631579,
+          "recall@10": 1.0
+        }
+      },
+      {
+        "model": "",
+        "variant": "lead_paragraph",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/rerank/money-heist/minilm-l6/lead_paragraph",
+        "timestamp": "2026-02-11 06:02:18",
+        "metrics": {
+          "recall@1": 0.8219814241486069,
+          "recall@5": 0.9404024767801857,
+          "recall@10": 1.0
+        }
+      },
+      {
+        "model": "",
+        "variant": "sentence-transformers__all-MiniLM-L6-v2__paragraph_text_plus_title__cross-encoder",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/rerank/money-heist/paragraph_minilm-l6/sentence-transformers__all-MiniLM-L6-v2__paragraph_text_plus_title__cross-encoder",
+        "timestamp": "2026-02-11 07:39:49",
+        "metrics": {
+          "recall@1": 0.935,
+          "recall@5": 0.9865,
+          "recall@10": 1.0
+        }
+      },
+      {
+        "model": "",
+        "variant": "sentence-transformers__all-MiniLM-L6-v2__paragraph_text__cross-encoder",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/rerank/money-heist/paragraph_minilm-l6/sentence-transformers__all-MiniLM-L6-v2__paragraph_text__cross-encoder",
+        "timestamp": "2026-02-11 07:20:58",
+        "metrics": {
+          "recall@1": 0.916,
+          "recall@5": 0.987,
+          "recall@10": 1.0
+        }
+      }
+    ]
+  },
+  "experiments": []
+}

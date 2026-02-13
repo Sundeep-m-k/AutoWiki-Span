@@ -1,0 +1,21 @@
+2026-02-13 02:56:23 — INFO — Logger initialized for 00_scrape_fandom
+2026-02-13 02:56:23 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/scraping/20260213_025623_00_scrape_fandom.log
+2026-02-13 02:56:23 — INFO — === Starting 00_scrape_fandom ===
+2026-02-13 02:56:23 — INFO — Starting full scrape for domain=starwars
+2026-02-13 02:56:23 — INFO — Base URL: https://starwars.fandom.com
+2026-02-13 02:56:23 — INFO — Start URL (AllPages): https://starwars.fandom.com/wiki/Special:AllPages
+2026-02-13 02:56:23 — INFO — Category URLs: []
+2026-02-13 02:56:23 — INFO — [AllPages] Fetching https://starwars.fandom.com/wiki/Special:AllPages
+2026-02-13 02:56:23 — ERROR — Unhandled error in 00_scrape_fandom: 403 Client Error: Forbidden for url: https://starwars.fandom.com/wiki/Special:AllPages
+Traceback (most recent call last):
+  File "/home/sundeep/Fandom_Span_ID_Retrieval/scripts/01_Data_processing/00_scrape_fandom.py", line 25, in main
+    url_list_path = run_full_scrape()
+  File "/home/sundeep/Fandom_Span_ID_Retrieval/src/fandom_span_id_retrieval/scraping/scrape_pipeline.py", line 427, in run_full_scrape
+    url_list_path = build_url_list(cfg, PROJECT_ROOT)
+  File "/home/sundeep/Fandom_Span_ID_Retrieval/src/fandom_span_id_retrieval/scraping/scrape_pipeline.py", line 194, in build_url_list
+    combined.extend(scrape_allpages(base_url, start_url, session))
+  File "/home/sundeep/Fandom_Span_ID_Retrieval/src/fandom_span_id_retrieval/scraping/scrape_pipeline.py", line 99, in scrape_allpages
+    r.raise_for_status()
+  File "/home/sundeep/anaconda3/envs/fandom-span/lib/python3.10/site-packages/requests/models.py", line 1026, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://starwars.fandom.com/wiki/Special:AllPages

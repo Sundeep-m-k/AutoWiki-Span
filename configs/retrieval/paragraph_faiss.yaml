@@ -1,0 +1,58 @@
+experiment:
+  task: "paragraph-retrieval"
+  domain: "starwars"
+  seed: 42
+
+paragraphs:
+  csv_path: "data/processed/${domain}/paragraphs_${domain}.csv"
+  id_field: "paragraph_id"
+  text_field: "paragraph_text"
+  title_field: "title"
+  page_name_field: "page_name"
+
+embeddings:
+  models:
+    - "sentence-transformers/all-MiniLM-L6-v2"
+  text_variants:
+    - "paragraph_text"
+    - "paragraph_text+title"
+  max_length: 256
+  batch_size: 32
+  normalize: true
+  trust_remote_code: true
+  output_dir: "outputs/retrieval/${domain}/paragraph_embeddings_minilm-l6"
+
+faiss:
+  metric: "ip"
+  use_gpu: true
+  gpu_device: 0
+  add_batch_size: 10000
+  show_progress: true
+  output_dir: "outputs/retrieval/${domain}/paragraph_faiss_minilm-l6"
+
+queries:
+  links_csv: "data/processed/${domain}/paragraph_links_${domain}.csv"
+  max_queries: 1000
+  variants: 20
+  sample_seed: 42
+  context_window: 200
+  output_path: "data/processed/${domain}/paragraph_queries_${domain}.jsonl"
+
+retrieval_eval:
+  k_list: [1, 5, 10]
+  output_dir: "outputs/retrieval/${domain}/paragraph_eval_minilm-l6"
+
+rerank:
+  model_name: "cross-encoder/ms-marco-MiniLM-L-6-v2"
+  candidate_k: 10
+  max_length: 256
+  splits:
+    train: 0.8
+    val: 0.1
+    test: 0.1
+  batch_size: 16
+  epochs: 3
+  lr: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  output_dir: "outputs/rerank/${domain}/paragraph_minilm-l6"

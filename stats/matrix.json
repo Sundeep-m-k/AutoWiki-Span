@@ -1,0 +1,101 @@
+{
+  "domain": "matrix",
+  "scraping_stats": {
+    "total_urls": 2010,
+    "downloaded": 1607,
+    "skipped": 400,
+    "failed": 3,
+    "html_bytes": {
+      "total": 438203431,
+      "avg": 272684.1512134412,
+      "max": 701187
+    },
+    "text_bytes": {
+      "total": 1804601,
+      "avg": 1122.962663347853,
+      "max": 55213
+    }
+  },
+  "dataset_stats": {
+    "num_articles": 1607,
+    "num_paragraphs": 10486,
+    "num_sentences": 22630,
+    "num_pages": 1607,
+    "num_links": 50419,
+    "link_type_counts": {
+      "internal": 20591,
+      "external": 1462,
+      "category": 34,
+      "file": 1,
+      "other": 3125
+    }
+  },
+  "span_identification_metrics": {},
+  "retrieval_metrics": {
+    "article_retrieval": [
+      {
+        "model": "",
+        "variant": "minilm-l6",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/retrieval/matrix/minilm-l6",
+        "timestamp": "2026-02-12 02:23:05",
+        "metrics": {
+          "recall@1": 0.39436619718309857,
+          "recall@5": 0.47417840375586856,
+          "recall@10": 0.5127803860198227
+        }
+      }
+    ],
+    "rerank": [
+      {
+        "model": "",
+        "variant": "full_text",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/rerank/matrix/minilm-l6/full_text",
+        "timestamp": "2026-02-12 03:40:50",
+        "metrics": {
+          "recall@1": 0.9420970266040689,
+          "recall@5": 0.9906103286384976,
+          "recall@10": 1.0
+        }
+      },
+      {
+        "model": "",
+        "variant": "lead_paragraph",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/rerank/matrix/minilm-l6/lead_paragraph",
+        "timestamp": "2026-02-12 03:34:57",
+        "metrics": {
+          "recall@1": 0.9520083463745436,
+          "recall@5": 0.9880020865936359,
+          "recall@10": 1.0
+        }
+      },
+      {
+        "model": "",
+        "variant": "sentence-transformers__all-MiniLM-L6-v2__paragraph_text_plus_title__cross-encoder",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/rerank/matrix/paragraph_minilm-l6/sentence-transformers__all-MiniLM-L6-v2__paragraph_text_plus_title__cross-encoder",
+        "timestamp": "2026-02-12 04:57:50",
+        "metrics": {
+          "recall@1": 0.994,
+          "recall@5": 0.9995,
+          "recall@10": 1.0
+        }
+      },
+      {
+        "model": "",
+        "variant": "sentence-transformers__all-MiniLM-L6-v2__paragraph_text__cross-encoder",
+        "seed": null,
+        "output_dir": "/home/sundeep/Fandom_Span_ID_Retrieval/outputs/rerank/matrix/paragraph_minilm-l6/sentence-transformers__all-MiniLM-L6-v2__paragraph_text__cross-encoder",
+        "timestamp": "2026-02-12 04:39:02",
+        "metrics": {
+          "recall@1": 0.9615,
+          "recall@5": 0.9975,
+          "recall@10": 1.0
+        }
+      }
+    ]
+  },
+  "experiments": []
+}

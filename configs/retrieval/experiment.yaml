@@ -1,0 +1,73 @@
+experiment:
+  task: "retrieval"
+  model: "sentence-transformers/all-MiniLM-L6-v2"
+  variant: "minilm-l6"
+  domain: "starwars"
+  seed: 42
+
+retrieval:
+  prepare:
+    do_prepare: true
+
+  data:
+    data_dir: "data/processed/${domain}"
+    articles_src: "data/processed/${domain}/articles_${domain}.jsonl"
+    queries_src: "data/processed/${domain}/article_queries_${domain}.jsonl"
+    overwrite: false
+    splits:
+      train: 0.8
+      val: 0.1
+      test: 0.1
+      seed: 42
+      shuffle: true
+
+  queries:
+    do_build: true
+    paragraphs_csv: "data/processed/${domain}/paragraphs_${domain}.csv"
+    links_csv: "data/processed/${domain}/paragraph_links_${domain}.csv"
+    output_path: "data/processed/${domain}/article_queries_${domain}.jsonl"
+    overwrite: false
+    shuffle: false
+    max_queries: 0
+    seed: 42
+
+  model:
+    encoder_name: "sentence-transformers/all-MiniLM-L6-v2"
+    freeze_encoder: false
+
+  train:
+    do_train: true
+    batch_size: 32
+    epochs: 5
+    lr: 2.0e-5
+    weight_decay: 0.01
+    warmup_ratio: 0.1
+    log_interval: 50
+    max_length: 256
+
+  output:
+    dir: "outputs/retrieval/${domain}/minilm-l6"
+
+eval:
+  do_eval: true
+  max_length: 256
+  ckpt_name: "best_model.pt"
+
+faiss:
+  do_build: true
+  text_variants:
+    - "lead_paragraph"
+    - "full_text"
+  max_length: 256
+  batch_size: 32
+  normalize: true
+  metric: "ip"
+  use_gpu: true
+  gpu_device: 0
+  retriever_ckpt: "outputs/retrieval/${domain}/minilm-l6/best_model.pt"
+  encoder_name: "sentence-transformers/all-MiniLM-L6-v2"
+  output:
+    dir: "outputs/retrieval/${domain}/faiss"
+    index_name: "articles.faiss"
+    embeddings_name: "article_embeddings.npy"
+    mapping_name: "article_ids.json"

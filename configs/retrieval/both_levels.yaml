@@ -1,0 +1,12 @@
+pipeline:
+  do_article: true
+  do_paragraph: true
+  do_article_rerank: true
+  do_paragraph_rerank: true
+  do_aggregate: true
+
+domain: "starwars"
+
+article_config: "configs/retrieval/experiment.yaml"
+paragraph_config: "configs/retrieval/paragraph_faiss.yaml"
+article_rerank_config: "configs/rerank/experiment.yaml"

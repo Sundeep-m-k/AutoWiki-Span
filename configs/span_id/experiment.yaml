@@ -1,0 +1,39 @@
+span_id:
+  domain: "starwars"
+
+  model_name: "bert-base-uncased"
+
+  # All outputs under this directory
+  results_dir: "outputs/span_id"
+  results_csv: "outputs/span_id/all_experiments.csv"
+
+  token_dataset_dir: "data/processed/${domain}/span_id_base"
+  train_file: "${token_dataset_dir}/train.jsonl"
+  dev_file:   "${token_dataset_dir}/dev.jsonl"
+  test_file:  "${token_dataset_dir}/test.jsonl"
+
+  log_dir: "outputs/span_id/logs/${domain}/base"
+  tensorboard_dir: "outputs/span_id/tensorboard/${domain}/base"
+
+  level: "paragraph"
+  normalize_punctuation: false
+
+  label_scheme: "BILOU"
+  max_seq_length: 512
+  num_labels: 5
+
+  train:
+    do_preprocess: true
+    do_train: true
+    do_eval: true
+
+    batch_size: 16
+    learning_rate: 2e-5
+    num_epochs: 20
+    weight_decay: 0.01
+    warmup_ratio: 0.1
+    logging_steps: 50
+    eval_steps: 500
+    save_steps: 500
+    gradient_accumulation_steps: 1
+    seed: 42
