@@ -20,6 +20,9 @@ archive/
 data/raw/
 data/processed/
 outputs/
+!outputs/**
+stats/
+!stats/**
 tmp_trainer/
 
 # Keep url lists for reproducibility
