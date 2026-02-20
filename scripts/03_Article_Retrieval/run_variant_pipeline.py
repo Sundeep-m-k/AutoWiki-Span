@@ -44,6 +44,17 @@ from fandom_span_id_retrieval.utils.aggregate_results import aggregate_results_m
 from fandom_span_id_retrieval.pipeline.experiment import PROJECT_ROOT
 from fandom_span_id_retrieval.utils.seed_utils import set_seed
 from fandom_span_id_retrieval.utils.experiment_registry import write_task_metadata
+from fandom_span_id_retrieval.utils.logging_utils import create_logger
+
+
+LOGGER = None
+
+
+def _log(message: str) -> None:
+    if LOGGER is not None:
+        LOGGER.info(message)
+    else:
+        _log(message)
 
 
 def _load_config(path: str) -> Dict[str, Any]:
@@ -83,9 +94,9 @@ def _create_variant_output_paths(base_cfg: Dict[str, Any], domain: str, variant:
 
 def _run_article_retrieval(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
     """Run article-level retrieval"""
-    print(f"\n{'='*60}")
-    print(f"Running Article Retrieval")
-    print(f"{'='*60}")
+    _log(f"\n{'='*60}")
+    _log(f"Running Article Retrieval")
+    _log(f"{'='*60}")
     
     retrieval_cfg = cfg.get("retrieval", {})
     data_cfg = retrieval_cfg.get("data", {})
@@ -96,15 +107,15 @@ def _run_article_retrieval(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     
     if retrieval_cfg.get("queries", {}).get("do_build", False):
-        print("Building article queries...")
+        _log("Building article queries...")
         build_article_queries(cfg)
 
     if retrieval_cfg.get("prepare", {}).get("do_prepare", False):
-        print("Preparing retrieval data...")
+        _log("Preparing retrieval data...")
         prepare_retrieval_data(cfg)
 
     if train_cfg.get("do_train", False):
-        print("Training article retriever...")
+        _log("Training article retriever...")
         train_retrieval_from_config({
             "dataset": {
                 "data_dir": data_cfg["data_dir"],
@@ -119,7 +130,7 @@ def _run_article_retrieval(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
 
     eval_cfg = cfg.get("eval", {})
     if eval_cfg.get("do_eval", False):
-        print("Evaluating article retriever...")
+        _log("Evaluating article retriever...")
         eval_retrieval_from_config({
             "dataset": {
                 "data_dir": data_cfg["data_dir"],
@@ -134,7 +145,7 @@ def _run_article_retrieval(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
 
     # Build FAISS index
     if cfg.get("faiss", {}).get("do_build", False):
-        print("Building FAISS index...")
+        _log("Building FAISS index...")
         faiss_cfg = cfg["faiss"].copy()
         faiss_cfg["output"] = {
             "dir": str(out_dir / "faiss"),
@@ -151,9 +162,9 @@ def _run_article_retrieval(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
 
 def _run_article_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
     """Run article-level reranking"""
-    print(f"\n{'='*60}")
-    print(f"Running Article Reranking")
-    print(f"{'='*60}")
+    _log(f"\n{'='*60}")
+    _log(f"Running Article Reranking")
+    _log(f"{'='*60}")
     
     rerank_cfg = cfg.get("rerank", {})
     data_cfg = rerank_cfg.get("data", {})
@@ -165,7 +176,7 @@ def _run_article_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     
     if rerank_cfg.get("prepare", {}).get("do_prepare", False):
-        print("Preparing reranking data...")
+        _log("Preparing reranking data...")
         # Modify retriever checkpoint path
         rerank_cfg_modified = rerank_cfg.copy()
         rerank_cfg_modified["retriever"] = {
@@ -181,7 +192,7 @@ def _run_article_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
         # The prepare_rerank_data function creates variant dirs, we'll use those
 
     if train_cfg.get("do_train", False):
-        print("Training article reranker...")
+        _log("Training article reranker...")
         variant = cfg.get("experiment", {}).get("variant", "lead_paragraph")
         variant_tag = _variant_dir_name(variant)
         data_dir = Path(data_cfg["data_dir"]) / "rerank" / variant_tag
@@ -199,7 +210,7 @@ def _run_article_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
         })
 
     if eval_cfg.get("do_eval", False):
-        print("Evaluating article reranker...")
+        _log("Evaluating article reranker...")
         variant = cfg.get("experiment", {}).get("variant", "lead_paragraph")
         variant_tag = _variant_dir_name(variant)
         data_dir = Path(data_cfg["data_dir"]) / "rerank" / variant_tag
@@ -219,32 +230,32 @@ def _run_article_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
 
 def _run_paragraph_retrieval(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
     """Run paragraph-level retrieval"""
-    print(f"\n{'='*60}")
-    print(f"Running Paragraph Retrieval")
-    print(f"{'='*60}")
+    _log(f"\n{'='*60}")
+    _log(f"Running Paragraph Retrieval")
+    _log(f"{'='*60}")
     
     # Build queries
-    print("Building paragraph queries...")
+    _log("Building paragraph queries...")
     build_paragraph_queries(cfg)
     
     # Build embeddings
-    print("Building paragraph embeddings...")
+    _log("Building paragraph embeddings...")
     build_paragraph_embeddings(cfg)
     
     # Build FAISS indices
-    print("Building FAISS indices...")
+    _log("Building FAISS indices...")
     build_paragraph_faiss_indices(cfg)
     
     # Evaluate paragraph retrieval
-    print("Evaluating paragraph retrieval...")
+    _log("Evaluating paragraph retrieval...")
     eval_paragraph_retrieval(cfg)
 
 
 def _run_paragraph_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> None:
     """Run paragraph-level reranking"""
-    print(f"\n{'='*60}")
-    print(f"Running Paragraph Reranking")
-    print(f"{'='*60}")
+    _log(f"\n{'='*60}")
+    _log(f"Running Paragraph Reranking")
+    _log(f"{'='*60}")
     
     rerank_cfg = cfg.get("rerank", {})
     retrieval_eval_cfg = cfg.get("retrieval_eval", {})
@@ -253,7 +264,7 @@ def _run_paragraph_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> Non
     out_dir = paths["paragraph_reranking"]
     out_dir.mkdir(parents=True, exist_ok=True)
     
-    print("Preparing paragraph reranking data...")
+    _log("Preparing paragraph reranking data...")
     prepare_paragraph_rerank_data(cfg)
     
     # Train and evaluate for each model and variant
@@ -266,13 +277,13 @@ def _run_paragraph_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> Non
         data_dir = data_root / model_tag / variant_tag
         
         if not data_dir.exists():
-            print(f"Data directory not found: {data_dir}")
+            _log(f"Data directory not found: {data_dir}")
             continue
         
         model_out_dir = out_dir / f"{model_tag}__cross-encoder"
         model_out_dir.mkdir(parents=True, exist_ok=True)
         
-        print(f"Training paragraph reranker ({model_name})...")
+        _log(f"Training paragraph reranker ({model_name})...")
         train_cfg = {
             "dataset": {
                 "data_dir": str(data_dir),
@@ -295,7 +306,7 @@ def _run_paragraph_reranking(cfg: Dict[str, Any], paths: Dict[str, Path]) -> Non
         
         train_rerank_from_config(train_cfg)
         
-        print(f"Evaluating paragraph reranker ({model_name})...")
+        _log(f"Evaluating paragraph reranker ({model_name})...")
         eval_config = {
             "dataset": {
                 "data_path": str(data_dir / "test.jsonl"),
@@ -323,10 +334,10 @@ def run_variant_pipeline(
     do_paragraph_rerank: bool = True,
 ) -> None:
     """Run complete pipeline for a single variant"""
-    print(f"\n{'#'*60}")
-    print(f"# Processing Variant: {variant}")
-    print(f"# Domain: {domain}")
-    print(f"{'#'*60}")
+    _log(f"\n{'#'*60}")
+    _log(f"# Processing Variant: {variant}")
+    _log(f"# Domain: {domain}")
+    _log(f"{'#'*60}")
     
     # Apply overrides
     article_cfg = _apply_overrides(article_cfg, domain, variant)
@@ -387,7 +398,7 @@ def run_variant_pipeline(
         },
     )
     
-    print(f"\n✓ Completed pipeline for variant: {variant}")
+    _log(f"\n✓ Completed pipeline for variant: {variant}")
 
 
 def _variant_pipeline_worker(args_tuple: tuple) -> tuple[str, bool]:
@@ -411,7 +422,7 @@ def _variant_pipeline_worker(args_tuple: tuple) -> tuple[str, bool]:
         )
         return (variant, True)
     except Exception as e:
-        print(f"❌ Error processing variant {variant}: {e}")
+        _log(f"❌ Error processing variant {variant}: {e}")
         return (variant, False)
 
 
@@ -449,7 +460,7 @@ def _load_variant_metrics(domain: str, variant: str) -> Optional[Dict[str, Any]]
         
         return metrics
     except Exception as e:
-        print(f"⚠️  Could not load metrics for variant {variant}: {e}")
+        _log(f"⚠️  Could not load metrics for variant {variant}: {e}")
         return None
 
 
@@ -458,7 +469,7 @@ def _progressive_aggregate(domain: str, completed_variants: List[str]) -> None:
     try:
         import pandas as pd
     except ImportError:
-        print("⚠️  pandas not available, skipping progressive aggregation")
+        _log("⚠️  pandas not available, skipping progressive aggregation")
         return
     
     results = {"variant": [], "level": [], "task": [], "metric": [], "value": [], "timestamp": []}
@@ -494,11 +505,12 @@ def _progressive_aggregate(domain: str, completed_variants: List[str]) -> None:
         output_path = outputs_dir / "results_progressive.csv"
         df.to_csv(output_path, index=False)
         
-        print(f"\n✓ Progressive results updated: {output_path}")
-        print(f"  Completed variants: {len(completed_variants)}/{len(set(results['variant']))}")
+        _log(f"\n✓ Progressive results updated: {output_path}")
+        _log(f"  Completed variants: {len(completed_variants)}/{len(set(results['variant']))}")
 
 
 def main() -> None:
+    global LOGGER
     parser = argparse.ArgumentParser(
         description="Clean Variant-Based Retrieval + Reranking Pipeline"
     )
@@ -532,6 +544,9 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    log_dir = PROJECT_ROOT / "outputs" / "logs" / "variant_pipeline"
+    LOGGER, _ = create_logger(log_dir, script_name="variant_pipeline")
+
     with open(args.config, "r", encoding="utf-8") as f:
         pipeline_cfg = yaml.safe_load(f) or {}
 
@@ -560,10 +575,10 @@ def main() -> None:
     
     # Run pipeline
     if args.parallel and len(variants) > 1:
-        print(f"\n{'#'*60}")
-        print(f"# Parallel Variant Pipeline")
-        print(f"# Running {len(variants)} variants with {args.num_workers} workers")
-        print(f"{'#'*60}")
+        _log(f"\n{'#'*60}")
+        _log(f"# Parallel Variant Pipeline")
+        _log(f"# Running {len(variants)} variants with {args.num_workers} workers")
+        _log(f"{'#'*60}")
         
         # Prepare worker arguments
         worker_args = [
@@ -591,15 +606,15 @@ def main() -> None:
                     completed_variants.append(variant)
                     if args.progressive:
                         _progressive_aggregate(domain, completed_variants)
-                    print(f"\n✓ Variant '{variant}' completed successfully")
+                    _log(f"\n✓ Variant '{variant}' completed successfully")
                 else:
-                    print(f"\n❌ Variant '{variant}' failed")
+                    _log(f"\n❌ Variant '{variant}' failed")
     else:
         # Sequential execution
-        print(f"\n{'#'*60}")
-        print(f"# Sequential Variant Pipeline")
-        print(f"# Running {len(variants)} variant(s) sequentially")
-        print(f"{'#'*60}")
+        _log(f"\n{'#'*60}")
+        _log(f"# Sequential Variant Pipeline")
+        _log(f"# Running {len(variants)} variant(s) sequentially")
+        _log(f"{'#'*60}")
         
         for variant in variants:
             run_variant_pipeline(
@@ -619,17 +634,17 @@ def main() -> None:
                 _progressive_aggregate(domain, [variant])
     
     if do_aggregate:
-        print(f"\n{'='*60}")
-        print("Aggregating final results...")
-        print(f"{'='*60}")
+        _log(f"\n{'='*60}")
+        _log("Aggregating final results...")
+        _log(f"{'='*60}")
         aggregate_results_main()
     
-    print(f"\n{'#'*60}")
-    print("✓ Pipeline completed successfully!")
-    print(f"Output directory: {PROJECT_ROOT / 'outputs' / domain}")
+    _log(f"\n{'#'*60}")
+    _log("✓ Pipeline completed successfully!")
+    _log(f"Output directory: {PROJECT_ROOT / 'outputs' / domain}")
     if args.progressive:
-        print(f"Progressive results: {PROJECT_ROOT / 'outputs' / domain / 'results_progressive.csv'}")
-    print(f"{'#'*60}")
+        _log(f"Progressive results: {PROJECT_ROOT / 'outputs' / domain / 'results_progressive.csv'}")
+    _log(f"{'#'*60}")
 
 
 if __name__ == "__main__":

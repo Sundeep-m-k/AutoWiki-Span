@@ -5,6 +5,7 @@ import csv
 from pathlib import Path
 
 from fandom_span_id_retrieval.pipeline.experiment import PROJECT_ROOT
+from fandom_span_id_retrieval.utils.logging_utils import create_logger
 
 
 def _read_csv(path: Path):
@@ -18,6 +19,9 @@ def _read_csv(path: Path):
 def main() -> None:
     out_dir = PROJECT_ROOT / "outputs" / "reports"
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    log_dir = PROJECT_ROOT / "outputs" / "logs" / "reports"
+    logger, _ = create_logger(log_dir, script_name="research_report")
 
     span_rows = _read_csv(PROJECT_ROOT / "outputs" / "span_id" / "all_experiments.csv")
     retrieval_rows = _read_csv(PROJECT_ROOT / "outputs" / "rerank" / "article_retrieval_results.csv")
@@ -80,8 +84,8 @@ def main() -> None:
         f.write(f"- Linking eval rows: {len(linking_rows)}\n")
         f.write("\nSee research_summary.csv for details.\n")
 
-    print(f"Wrote {report_csv}")
-    print(f"Wrote {report_md}")
+    logger.info(f"Wrote {report_csv}")
+    logger.info(f"Wrote {report_md}")
 
 
 if __name__ == "__main__":
