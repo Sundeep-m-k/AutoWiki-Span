@@ -93,6 +93,9 @@ def evaluate_retrieval(model, dataloader, device, k_list=(1, 5, 10)) -> Dict[str
     model.eval()
     total = 0
     correct_at_k = {k: 0 for k in k_list}
+    rr_sum_at_10 = 0.0
+    ndcg_sum_at_10 = 0.0
+    candidate_pool_size = 0
 
     for batch in tqdm(dataloader):
         labels = batch["labels"]
@@ -103,16 +106,35 @@ def evaluate_retrieval(model, dataloader, device, k_list=(1, 5, 10)) -> Dict[str
             attention_mask=batch["attention_mask"],
         )
         logits = outputs["logits"]  # [B, num_articles]
-        topk = torch.topk(logits, k=max(k_list), dim=-1).indices
+        if candidate_pool_size == 0:
+            candidate_pool_size = int(logits.size(1))
+        max_k = max(max(k_list), 10)
+        max_k = min(max_k, logits.size(1))
+        topk = torch.topk(logits, k=max_k, dim=-1).indices
 
         labels = labels.to(device)
         total += labels.size(0)
 
         for k in k_list:
-            in_topk = (topk[:, :k] == labels.unsqueeze(-1)).any(dim=-1)
+            k_eff = min(k, max_k)
+            in_topk = (topk[:, :k_eff] == labels.unsqueeze(-1)).any(dim=-1)
             correct_at_k[k] += in_topk.sum().item()
 
+        # MRR@10 and NDCG@10
+        k_mrr = min(10, max_k)
+        topk_10 = topk[:, :k_mrr]
+        match_positions = (topk_10 == labels.unsqueeze(-1)).nonzero(as_tuple=False)
+        if match_positions.numel() > 0:
+            # match_positions: [N, 2] -> (row_idx, col_idx)
+            for _, col_idx in match_positions:
+                rank = int(col_idx) + 1
+                rr_sum_at_10 += 1.0 / rank
+                ndcg_sum_at_10 += 1.0 / torch.log2(torch.tensor(rank + 1.0)).item()
+
     metrics = {f"recall@{k}": correct_at_k[k] / total for k in k_list}
+    metrics["mrr@10"] = rr_sum_at_10 / total if total > 0 else 0.0
+    metrics["ndcg@10"] = ndcg_sum_at_10 / total if total > 0 else 0.0
+    metrics["candidate_pool_size"] = candidate_pool_size
     return metrics
 
 
@@ -186,11 +208,12 @@ def train_retrieval_from_config(config: Dict[str, Any]) -> Dict[str, Any]:
         )
         print(f"train_loss: {train_loss:.4f}")
 
+        val_k_list = tuple(train_cfg.get("k_list", (1, 3, 5, 10, 50, 100)))
         metrics = evaluate_retrieval(
             model=model,
             dataloader=val_loader,
             device=device,
-            k_list=(1, 5, 10),
+            k_list=val_k_list,
         )
         print("val_metrics:", metrics)
         history.append({"epoch": epoch, "train_loss": train_loss, **metrics})

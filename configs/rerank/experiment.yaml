@@ -2,7 +2,7 @@ experiment:
   task: "rerank"
   model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
   variant: "cross-encoder"
-  domain: "money-heist"
+  domain: "twister"
   seed: 42
 
 rerank:

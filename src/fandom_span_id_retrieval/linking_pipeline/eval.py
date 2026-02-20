@@ -207,16 +207,17 @@ def run_linking_evaluation(config_path: Path) -> Path:
     lp_cfg = cfg.get("linking_pipeline", {})
 
     levels = lp_cfg.get("levels", ["paragraph"])
-    variants = lp_cfg.get("retrieval_variants", ["minilm-l6"])
+    variants = lp_cfg.get("retrieval_variants", ["lead_paragraph", "full_text"])
     run_all_levels = bool(lp_cfg.get("run_all_levels", True))
     run_all_variants = bool(lp_cfg.get("run_all_variants", True))
 
     if not run_all_levels:
         levels = [str(lp_cfg.get("level", "paragraph"))]
     if not run_all_variants:
-        variants = [str(lp_cfg.get("retrieval_variant", "minilm-l6"))]
+        variants = [str(lp_cfg.get("retrieval_variant", "lead_paragraph"))]
 
-    out_root = Path(lp_cfg.get("output_dir", f"outputs/linking_pipeline/{domain}"))
+    # Point to variant pipeline outputs structure
+    out_root = Path(lp_cfg.get("output_dir", "outputs")).parent / "linking_pipeline" / domain
     out_root.mkdir(parents=True, exist_ok=True)
 
     log_dir = out_root / "logs"
@@ -253,7 +254,8 @@ def run_linking_evaluation(config_path: Path) -> Path:
                 gold_map = _read_paragraph_links(data_dir / f"paragraph_links_{domain}.csv")
 
             for variant in variants:
-                pred_path = out_root / level / variant.replace("+", "_plus_") / "predictions.jsonl"
+                variant_tag = variant.replace("+", "_plus_")
+                pred_path = out_root / variant_tag / level / "predictions.jsonl"
                 if not pred_path.exists():
                     logger.warning(f"Missing predictions: {pred_path}")
                     continue

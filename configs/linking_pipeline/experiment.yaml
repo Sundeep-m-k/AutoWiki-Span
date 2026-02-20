@@ -1,15 +1,16 @@
 linking_pipeline:
-  domain: "money-heist"
+  domain: "twister"
 
   # Toggle multi-run behavior
-  run_all_levels: false
-  levels: ["paragraph", "page"]
+  run_all_levels: true
+  levels: ["paragraph"]
   level: "paragraph"  # used when run_all_levels=false
 
-  run_all_variants: false
+  run_all_variants: true
   retrieval_variants:
-    - "paragraph_text+title"
-  retrieval_variant: "paragraph_text+title"  # used when run_all_variants=false
+    - "lead_paragraph"
+    - "full_text"
+  retrieval_variant: "lead_paragraph"  # used when run_all_variants=false
 
   data_dir: "data/processed/${domain}"
   output_dir: "outputs/linking_pipeline/${domain}"
@@ -17,8 +18,11 @@ linking_pipeline:
   seed: 42
 
   max_examples: 0
-  top_k: 1
+  top_k: 10
   include_scores: true
+
+  use_cached_spans: true
+  span_cache_path: "data/processed/${domain}/span_cache_{level}.jsonl"
 
   # Query construction
   query:

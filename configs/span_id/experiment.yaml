@@ -1,5 +1,5 @@
 span_id:
-  domain: "money-heist"
+  domain: "twister"
 
   model_name: "bert-base-uncased"
 
@@ -20,7 +20,11 @@ span_id:
 
   label_scheme: "BILOU"
   max_seq_length: 512
+  stride: 128
   num_labels: 5
+
+  export_spans: true
+  span_cache_path: "data/processed/${domain}/span_cache_{level}.jsonl"
 
   train:
     do_preprocess: true

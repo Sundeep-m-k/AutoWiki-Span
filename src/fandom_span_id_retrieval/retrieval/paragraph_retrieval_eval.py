@@ -152,10 +152,14 @@ def eval_paragraph_retrieval(cfg: Dict[str, Any]) -> Dict[str, Dict[str, float]]
                 normalize=normalize,
             )
 
-            scores, idxs = index.search(query_embs, max(k_list))
+            max_k = max(max(k_list), 10)
+            max_k = min(max_k, len(paragraph_ids))
+            scores, idxs = index.search(query_embs, max_k)
 
             correct_at_k = {k: 0 for k in k_list}
             total = len(queries)
+            rr_sum_at_10 = 0.0
+            ndcg_sum_at_10 = 0.0
 
             for i in range(total):
                 retrieved_paragraphs = [
@@ -164,10 +168,20 @@ def eval_paragraph_retrieval(cfg: Dict[str, Any]) -> Dict[str, Dict[str, float]]
                 retrieved_article_ids = [paragraph_map.get(pid, "") for pid in retrieved_paragraphs]
                 target_id = target_article_ids[i]
                 for k in k_list:
-                    if target_id in retrieved_article_ids[:k]:
+                    k_eff = min(k, max_k)
+                    if target_id in retrieved_article_ids[:k_eff]:
                         correct_at_k[k] += 1
 
+                k_mrr = min(10, max_k)
+                if target_id in retrieved_article_ids[:k_mrr]:
+                    rank = retrieved_article_ids[:k_mrr].index(target_id) + 1
+                    rr_sum_at_10 += 1.0 / rank
+                    ndcg_sum_at_10 += 1.0 / np.log2(rank + 1)
+
             metrics = {f"recall@{k}": correct_at_k[k] / total for k in k_list}
+            metrics["mrr@10"] = rr_sum_at_10 / total if total > 0 else 0.0
+            metrics["ndcg@10"] = ndcg_sum_at_10 / total if total > 0 else 0.0
+            metrics["candidate_pool_size"] = len(paragraph_ids)
             results[model_name][variant] = metrics
 
             out_dir = out_root / _sanitize_model_name(model_name) / _sanitize_variant_name(variant)

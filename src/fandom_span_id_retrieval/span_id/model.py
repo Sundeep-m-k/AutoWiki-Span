@@ -21,7 +21,8 @@ from transformers import (
 from fandom_span_id_retrieval.eval.span_metrics import compute_span_metrics_for_trainer
 from fandom_span_id_retrieval.utils.logging_utils import create_logger
 from fandom_span_id_retrieval.pipeline.experiment import PROJECT_ROOT
-from fandom_span_id_retrieval.span_id.preprocess import BILOU_LABELS, LABEL2ID, ID2LABEL
+from fandom_span_id_retrieval.linking_pipeline.span_predict import predict_spans
+from fandom_span_id_retrieval.span_id.preprocess import BILOU_LABELS, LABEL2ID, ID2LABEL, normalize_punctuation
 from fandom_span_id_retrieval.utils.model_registry import write_model_manifest
 
 
@@ -329,4 +330,84 @@ def evaluate_model_from_cfg(span_cfg: Dict[str, Any]) -> Dict[str, Any]:
     summary_file = save_experiment_summary(span_cfg, metrics, model_dir)
     logger.info(f"Detailed summary saved to: {summary_file}")
 
+    if bool(span_cfg.get("export_spans", False)):
+        _export_span_cache(span_cfg, model, tokenizer, logger)
+
     return metrics
+
+
+def _span_cache_output_path(span_cfg: Dict[str, Any]) -> Path:
+    domain = span_cfg.get("domain", "unknown")
+    level = span_cfg.get("level", "paragraph")
+    cache_path = span_cfg.get("span_cache_path")
+    if not cache_path:
+        cache_path = f"data/processed/{domain}/span_cache_{level}.jsonl"
+    cache_path = str(cache_path).replace("{level}", level)
+    return PROJECT_ROOT / cache_path
+
+
+def _export_span_cache(
+    span_cfg: Dict[str, Any],
+    model,
+    tokenizer,
+    logger,
+) -> Path:
+    domain = span_cfg.get("domain", "unknown")
+    level = span_cfg.get("level", "paragraph")
+    normalize_punct = bool(span_cfg.get("normalize_punctuation", False))
+    max_seq_length = int(span_cfg.get("max_seq_length", 512))
+    stride = int(span_cfg.get("stride", 128))
+
+    if level == "paragraph":
+        in_name = f"paragraphs_{domain}.jsonl"
+    elif level == "page":
+        in_name = f"pages_{domain}.jsonl"
+    else:
+        raise ValueError(f"Unknown level: {level}")
+
+    input_path = PROJECT_ROOT / "data" / "processed" / domain / in_name
+    if not input_path.exists():
+        logger.warning(f"Span cache input not found: {input_path}")
+        return _span_cache_output_path(span_cfg)
+
+    output_path = _span_cache_output_path(span_cfg)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    logger.info(f"Exporting span cache: {output_path}")
+
+    count = 0
+    with input_path.open("r", encoding="utf-8") as fin, \
+        output_path.open("w", encoding="utf-8") as fout:
+        for line in fin:
+            line = line.strip()
+            if not line:
+                continue
+            rec = json.loads(line)
+            text = rec.get("paragraph_text") or rec.get("page_text") or ""
+            if not text.strip():
+                continue
+            if normalize_punct:
+                text = normalize_punctuation(text)
+
+            rec_id = str(rec.get("paragraph_id") or rec.get("page_id") or "")
+            if not rec_id:
+                continue
+
+            spans = predict_spans(
+                text=text,
+                model=model,
+                tokenizer=tokenizer,
+                max_seq_length=max_seq_length,
+                stride=stride,
+            )
+
+            fout.write(json.dumps({
+                "id": rec_id,
+                "text": text,
+                "spans": spans,
+                "level": level,
+            }, ensure_ascii=False) + "\n")
+            count += 1
+
+    logger.info(f"Span cache records written: {count}")
+    return output_path

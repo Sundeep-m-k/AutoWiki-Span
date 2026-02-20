@@ -58,11 +58,12 @@ def eval_retrieval_from_config(config: Dict[str, Any]) -> Dict[str, float]:
         num_workers=4,
     )
 
+    k_list = tuple(config.get("k_list", data_cfg.get("k_list", (1, 3, 5, 10, 50, 100))))
     metrics = evaluate_retrieval(
         model=model,
         dataloader=test_loader,
         device=device,
-        k_list=(1, 5, 10),
+        k_list=k_list,
     )
     # save metrics
     with open(Path(out_cfg["dir"]) / "test_metrics.json", "w") as f:

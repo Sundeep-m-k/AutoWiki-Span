@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import argparse
 import copy
+from multiprocessing import Pool
 from pathlib import Path
 from typing import Any, Dict
 
@@ -77,6 +78,12 @@ def run_one(span_cfg_base: dict, level: str, normalize_punct: bool):
         evaluate_model_from_cfg(span_cfg)
 
 
+def _worker(args_tuple):
+    span_cfg_base, level, normalize_punct = args_tuple
+    run_one(span_cfg_base, level, normalize_punct)
+    return (level, normalize_punct)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -91,6 +98,22 @@ def main():
         default="span_id",
         help="YAML section name for span-id config",
     )
+    parser.add_argument(
+        "--parallel",
+        action="store_true",
+        help="Run span-id grid in parallel",
+    )
+    parser.add_argument(
+        "--num-workers",
+        type=int,
+        default=2,
+        help="Number of parallel workers (default: 2)",
+    )
+    parser.add_argument(
+        "--progressive",
+        action="store_true",
+        help="Print progress as each grid run completes",
+    )
     args = parser.parse_args()
 
     cfg = load_yaml_config(args.config)
@@ -99,8 +122,17 @@ def main():
     seed = int(span_cfg_base.get("train", {}).get("seed", 0))
     set_seed(seed, deterministic=True)
 
-    for level, np_flag in GRID_SETTINGS:
-        run_one(span_cfg_base, level, np_flag)
+    if args.parallel and len(GRID_SETTINGS) > 1:
+        worker_args = [(span_cfg_base, level, np_flag) for level, np_flag in GRID_SETTINGS]
+        completed = 0
+        with Pool(processes=args.num_workers) as pool:
+            for level, np_flag in pool.imap_unordered(_worker, worker_args):
+                completed += 1
+                if args.progressive:
+                    print(f"[SPAN-ID] completed {completed}/{len(GRID_SETTINGS)}: level={level}, normalize_punctuation={np_flag}")
+    else:
+        for level, np_flag in GRID_SETTINGS:
+            run_one(span_cfg_base, level, np_flag)
 
 
 if __name__ == "__main__":

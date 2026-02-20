@@ -55,9 +55,20 @@ def main() -> None:
 
     _run([python, str(scripts_dir / "01_Data_processing" / "00_scrape_fandom.py")])
     _run([python, str(scripts_dir / "01_Data_processing" / "01_build_ground_truth.py")])
-    _run([python, str(scripts_dir / "02_Span_Identification" / "01_run_span_id_grid.py")])
-    _run([python, str(scripts_dir / "03_Article_Retrieval" / "run_both_levels.py")])
-    _run([python, str(scripts_dir / "03_Article_Retrieval" / "run_paragraph_retrieval.py")])
+    _run([
+        python,
+        str(scripts_dir / "02_Span_Identification" / "01_run_span_id_grid.py"),
+        "--parallel",
+        "--num-workers", "2",
+        "--progressive",
+    ])
+    _run([
+        python, 
+        str(scripts_dir / "03_Article_Retrieval" / "run_variant_pipeline.py"),
+        "--parallel",
+        "--num-workers", "2",
+        "--progressive"
+    ])
     _run([python, str(scripts_dir / "04_Linking_Pipeline" / "run_linking_pipeline.py")])
     _run([python, str(scripts_dir / "05_reports" / "build_research_report.py")])
 
