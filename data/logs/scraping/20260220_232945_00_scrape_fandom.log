@@ -1,0 +1,6 @@
+2026-02-20 23:29:45 — INFO — Logger initialized for 00_scrape_fandom
+2026-02-20 23:29:45 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/scraping/20260220_232945_00_scrape_fandom.log
+2026-02-20 23:29:45 — INFO — === Starting 00_scrape_fandom ===
+2026-02-20 23:31:29 — INFO — Finished 00_scrape_fandom in 103.85 seconds
+2026-02-20 23:31:29 — INFO — URL list: /home/sundeep/Fandom_Span_ID_Retrieval/data/raw/url_lists/beverlyhillscop_urls.txt
+2026-02-20 23:31:29 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/scraping/20260220_232945_00_scrape_fandom.log

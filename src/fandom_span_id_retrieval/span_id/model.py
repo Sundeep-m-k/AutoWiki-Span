@@ -342,7 +342,8 @@ def _span_cache_output_path(span_cfg: Dict[str, Any]) -> Path:
     cache_path = span_cfg.get("span_cache_path")
     if not cache_path:
         cache_path = f"data/processed/{domain}/span_cache_{level}.jsonl"
-    cache_path = str(cache_path).replace("{level}", level)
+    domain = span_cfg.get("domain", "unknown")
+    cache_path = str(cache_path).replace("{level}", level).replace("${domain}", domain).replace("{domain}", domain)
     return PROJECT_ROOT / cache_path
 
 

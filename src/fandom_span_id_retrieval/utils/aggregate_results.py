@@ -61,9 +61,6 @@ def _collect_test_metrics(task: str) -> List[Dict[str, Any]]:
                 "domain": domain,
                 "model": model,
                 "variant": variant,
-                "seed": seed,
-                "output_dir": str(metrics_path.parent),
-                "metrics": metrics,
             }
         )
 
@@ -97,6 +94,40 @@ def _write_csv(entries: List[Dict[str, Any]], out_path: Path) -> None:
             writer.writerow(row)
 
 
+def _collect_test_metrics(task: str) -> List[Dict[str, Any]]:
+    # Use data/processed/{domain} as the root for aggregation
+    task_dir = PROJECT_ROOT / "data" / "processed"
+    entries: List[Dict[str, Any]] = []
+    for domain_dir in task_dir.iterdir():
+        if not domain_dir.is_dir():
+            continue
+        for metrics_path in domain_dir.rglob("test_metrics.json"):
+            try:
+                rel = metrics_path.relative_to(domain_dir)
+            except ValueError:
+                continue
+            if len(rel.parts) < 1:
+                continue
+            domain = domain_dir.name
+            run_name = metrics_path.parent.name
+            model, variant, seed = _parse_run_name(task, run_name)
+            metrics = _load_metrics(metrics_path)
+            timestamp = datetime.fromtimestamp(metrics_path.stat().st_mtime).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
+            entries.append(
+                {
+                    "timestamp": timestamp,
+                    "task": task,
+                    "domain": domain,
+                    "model": model,
+                    "variant": variant,
+                    "seed": seed,
+                    "output_dir": str(metrics_path.parent),
+                    "metrics": metrics,
+                }
+            )
+    return entries
 def _entry_for_stats(entry: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "model": entry.get("model", ""),

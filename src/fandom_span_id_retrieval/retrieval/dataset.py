@@ -14,9 +14,15 @@ class RetrievalDataset(Dataset):
         self.examples: List[Dict] = []
 
         with open(self.path, "r", encoding="utf-8") as f:
-            for line in f:
-                obj = json.loads(line)
-                self.examples.append(obj)
+            for idx, line in enumerate(f, 1):
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    obj = json.loads(line)
+                    self.examples.append(obj)
+                except json.JSONDecodeError as e:
+                    print(f"[RetrievalDataset] Skipping invalid JSON at line {idx}: {e}")
 
     def __len__(self) -> int:
         return len(self.examples)

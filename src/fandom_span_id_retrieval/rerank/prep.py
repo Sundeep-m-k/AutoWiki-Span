@@ -40,11 +40,14 @@ def expand_config(cfg: Dict[str, Any]) -> Dict[str, Any]:
 
 def _read_jsonl(path: Path) -> Iterable[Dict[str, Any]]:
     with path.open("r", encoding="utf-8") as f:
-        for line in f:
+        for idx, line in enumerate(f, 1):
             line = line.strip()
             if not line:
                 continue
-            yield json.loads(line)
+            try:
+                yield json.loads(line)
+            except json.JSONDecodeError as e:
+                print(f"[_read_jsonl] Skipping invalid JSON at line {idx}: {e}")
 
 
 def _load_articles(path: Path) -> Dict[int, Dict[str, Any]]:

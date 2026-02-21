@@ -48,6 +48,7 @@ def assign_bilou_labels(
         truncation=True,
         max_length=max_seq_length,
         add_special_tokens=True,
+        padding=True,
     )
     offsets = encoding["offset_mapping"]
     input_ids = encoding["input_ids"]

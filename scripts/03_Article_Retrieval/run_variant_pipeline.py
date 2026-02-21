@@ -54,7 +54,7 @@ def _log(message: str) -> None:
     if LOGGER is not None:
         LOGGER.info(message)
     else:
-        _log(message)
+        print(message)
 
 
 def _load_config(path: str) -> Dict[str, Any]:

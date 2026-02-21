@@ -1,0 +1,34 @@
+2026-02-20 23:31:29 — INFO — Logger initialized for 01_build_ground_truth
+2026-02-20 23:31:29 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/beverlyhillscop/20260220_233129_01_build_ground_truth.log
+2026-02-20 23:31:29 — INFO — === Starting 01_build_ground_truth for domain=beverlyhillscop ===
+2026-02-20 23:31:29 — INFO — Building ground truth for domain=beverlyhillscop
+2026-02-20 23:31:29 — INFO — HTML dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/raw/fandom_html/beverlyhillscop
+2026-02-20 23:31:29 — INFO — Paragraph master: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/paragraphs_beverlyhillscop.jsonl
+2026-02-20 23:31:29 — INFO — Sentence master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/sentences_beverlyhillscop.jsonl
+2026-02-20 23:31:29 — INFO — Articles master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/articles_beverlyhillscop.jsonl
+2026-02-20 23:31:29 — INFO — Per-article paragraphs dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/paragraphs_beverlyhillscop_by_article
+2026-02-20 23:31:29 — INFO — Per-article sentences dir:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/sentences_beverlyhillscop_by_article
+2026-02-20 23:31:29 — INFO — Building page_map from 129 HTML files
+2026-02-20 23:31:33 — INFO — [page_map] Built mapping for 129 pages
+2026-02-20 23:31:35 — INFO — [Progress] Processed 50/129 HTML files; articles=50, paragraphs=567, sentences=1543, links=1506
+2026-02-20 23:31:37 — INFO — [Progress] Processed 100/129 HTML files; articles=100, paragraphs=969, sentences=2554, links=1828
+2026-02-20 23:31:38 — INFO — === Ground truth summary ===
+2026-02-20 23:31:38 — INFO — Articles:    129
+2026-02-20 23:31:38 — INFO — Paragraphs:  1274
+2026-02-20 23:31:38 — INFO — Sentences:   3441
+2026-02-20 23:31:38 — INFO — Links:       2448
+2026-02-20 23:31:38 — INFO — Link type counts: {'internal': 961, 'external': 32, 'category': 0, 'file': 0, 'other': 231}
+2026-02-20 23:31:38 — INFO — Paragraph master: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/paragraphs_beverlyhillscop.jsonl
+2026-02-20 23:31:38 — INFO — Sentence master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/sentences_beverlyhillscop.jsonl
+2026-02-20 23:31:38 — INFO — Page master:      /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/pages_beverlyhillscop.jsonl
+2026-02-20 23:31:38 — INFO — Articles master:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/articles_beverlyhillscop.jsonl
+2026-02-20 23:31:38 — INFO — Per-article paragraphs dir: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/paragraphs_beverlyhillscop_by_article
+2026-02-20 23:31:38 — INFO — Per-article sentences dir:  /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/sentences_beverlyhillscop_by_article
+2026-02-20 23:31:38 — INFO — Paragraph CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/paragraphs_beverlyhillscop.csv
+2026-02-20 23:31:38 — INFO — Paragraph links CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/paragraph_links_beverlyhillscop.csv
+2026-02-20 23:31:38 — INFO — Sentence CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/sentences_beverlyhillscop.csv
+2026-02-20 23:31:38 — INFO — Sentence links CSV: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/sentence_links_beverlyhillscop.csv
+2026-02-20 23:31:38 — INFO — Dataset manifest: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/dataset_manifest.json
+2026-02-20 23:31:38 — INFO — Finished 01_build_ground_truth in 8.86 seconds
+2026-02-20 23:31:38 — INFO — Paragraph master file: /home/sundeep/Fandom_Span_ID_Retrieval/data/processed/beverlyhillscop/paragraphs_beverlyhillscop.jsonl
+2026-02-20 23:31:38 — INFO — Log file: /home/sundeep/Fandom_Span_ID_Retrieval/data/logs/beverlyhillscop/20260220_233129_01_build_ground_truth.log

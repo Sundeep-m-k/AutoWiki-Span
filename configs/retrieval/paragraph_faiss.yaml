@@ -1,6 +1,6 @@
 experiment:
   task: "paragraph-retrieval"
-  domain: "twister"
+  domain: "beverlyhillscop"
   seed: 42
 
 paragraphs:

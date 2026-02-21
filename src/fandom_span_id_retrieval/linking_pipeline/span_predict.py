@@ -90,6 +90,7 @@ def predict_spans(
         stride=stride,
         return_overflowing_tokens=True,
         return_tensors="pt",
+        padding=True,
     )
 
     input_ids = encoded["input_ids"].to(device)

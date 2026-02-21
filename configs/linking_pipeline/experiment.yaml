@@ -1,5 +1,5 @@
 linking_pipeline:
-  domain: "twister"
+  domain: "beverlyhillscop"
 
   # Toggle multi-run behavior
   run_all_levels: true

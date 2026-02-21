@@ -5,7 +5,7 @@ pipeline:
   do_paragraph_rerank: true
   do_aggregate: true
 
-domain: "twister"
+domain: "beverlyhillscop"
 
 article_config: "configs/retrieval/experiment.yaml"
 paragraph_config: "configs/retrieval/paragraph_faiss.yaml"

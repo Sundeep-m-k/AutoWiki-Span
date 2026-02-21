@@ -92,7 +92,7 @@ def _load_retriever_from_variant(variant: str, domain: str, outputs_root: Path, 
     # Determine retrieval level
     retrieval_level = _detect_retrieval_level(variant)
     variant_tag = variant.replace("+", "_plus_")
-    variant_output_root = outputs_root.parent / domain / variant_tag
+    variant_output_root = Path(f"data/processed/{domain}") / variant_tag
     
     if retrieval_level == "article":
         # Use article-level retriever
